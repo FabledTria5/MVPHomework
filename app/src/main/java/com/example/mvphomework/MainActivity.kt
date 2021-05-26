@@ -19,9 +19,11 @@ class MainActivity : AppCompatActivity(), MainView {
             presenter.counterClick(it.tag.toString().toInt())
         }
 
-        binding.btnCounter1.setOnClickListener(listener)
-        binding.btnCounter2.setOnClickListener(listener)
-        binding.btnCounter3.setOnClickListener(listener)
+        with(binding) {
+            btnCounter1.setOnClickListener(listener)
+            btnCounter2.setOnClickListener(listener)
+            btnCounter3.setOnClickListener(listener)
+        }
     }
 
     override fun setButtonText(index: Int, text: String) {
