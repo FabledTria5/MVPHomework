@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -54,4 +55,7 @@ dependencies {
     kapt "com.github.moxy-community:moxy-compiler:$moxy_version"
     implementation "com.github.moxy-community:moxy-androidx:$moxy_version"
     implementation "com.github.moxy-community:moxy-ktx:2.1.2"
+
+    // Cicerone
+    implementation 'com.github.terrakok:cicerone:7.0'
 }
