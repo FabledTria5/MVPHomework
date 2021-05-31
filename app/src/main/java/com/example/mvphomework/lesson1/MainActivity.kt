@@ -5,18 +5,18 @@ import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
 import androidx.appcompat.app.AlertDialog
 import com.example.mvphomework.R
-import com.example.mvphomework.databinding.ActivityMainBinding
+import com.example.mvphomework.databinding.ActivityMainHomework1Binding
 import moxy.MvpAppCompatActivity
 import moxy.ktx.moxyPresenter
 
 class MainActivity : MvpAppCompatActivity(), CountersView {
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityMainHomework1Binding
     private val presenter: MainPresenter by moxyPresenter { MainPresenter(CountersModel()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainHomework1Binding.inflate(layoutInflater)
             .also { setContentView(it.root) }
             .apply {
                 btnCounter1.setOnClickListener { presenter.incrementCounter1() }
