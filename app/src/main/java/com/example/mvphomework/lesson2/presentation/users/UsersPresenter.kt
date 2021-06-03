@@ -41,12 +41,10 @@ class UsersPresenter(
         }
     }
 
-    private fun loadData() = userInteractor.getUsers()
-        .toObservable()
-        .subscribeBy(
-            onNext = ::onGetUsersSuccess,
-            onError = ::onGetUsersError,
-        )
+    private fun loadData() = userInteractor.getUsers().subscribeBy(
+        onNext = ::onGetUsersSuccess,
+        onError = ::onGetUsersError,
+    )
 
     private fun onGetUsersSuccess(users: List<GitHubUser>) {
         usersListPresenter.users.addAll(users)
