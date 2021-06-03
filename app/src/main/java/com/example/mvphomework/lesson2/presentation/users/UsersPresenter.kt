@@ -41,7 +41,7 @@ class UsersPresenter(
         }
     }
 
-    private fun loadData() = userInteractor.getUsers().subscribeBy(
+    private fun loadData() = userInteractor.getUsers().toObservable().subscribeBy(
         onNext = ::onGetUsersSuccess,
         onError = ::onGetUsersError,
     )

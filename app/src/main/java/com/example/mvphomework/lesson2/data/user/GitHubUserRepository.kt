@@ -1,6 +1,6 @@
 package com.example.mvphomework.lesson2.data.user
 
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 
 class GitHubUserRepository {
 
@@ -12,5 +12,5 @@ class GitHubUserRepository {
         GitHubUser("login5")
     )
 
-    fun getUsers(): Observable<List<GitHubUser>> = Observable.just(usersList)
+    fun getUsers(): Single<List<GitHubUser>> = Single.just(usersList)
 }
