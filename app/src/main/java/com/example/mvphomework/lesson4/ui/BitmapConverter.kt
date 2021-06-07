@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.mvphomework.lesson4.ui
 
 import android.content.Context
@@ -5,7 +7,6 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
 import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.io.File
 import java.io.FileOutputStream
