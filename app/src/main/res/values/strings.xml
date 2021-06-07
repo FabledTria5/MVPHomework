@@ -13,4 +13,7 @@
     <string name="converted">Successfully converted!</string>
     <string name="canceled">Operation was canceled by user</string>
     <string name="granted">Permission granted!</string>
+    <string name="cancel">Cancel</string>
+    <string name="permissions_granted">Permission to save images granted! Press the button again</string>
+    <string name="permissions_denied">This app can\'t work properly without storage access</string>
 </resources>

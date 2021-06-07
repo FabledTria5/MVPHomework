@@ -118,7 +118,7 @@ class MainActivity : MvpAppCompatActivity(), MainView, EasyPermissions.Permissio
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: List<String>) =
-        toast("Permission Granted!")
+        toast(getString(R.string.permissions_granted))
 
     private fun hasPermissions() = EasyPermissions.hasPermissions(
         this,
@@ -128,7 +128,7 @@ class MainActivity : MvpAppCompatActivity(), MainView, EasyPermissions.Permissio
     private fun requestPermissions() {
         EasyPermissions.requestPermissions(
             this,
-            "This app can't work properly without storage access",
+            getString(R.string.permissions_denied),
             PERMISSION_WRITE_REQUEST_CODE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
         )
