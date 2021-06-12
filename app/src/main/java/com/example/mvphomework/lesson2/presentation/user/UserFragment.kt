@@ -9,7 +9,6 @@ import com.example.mvphomework.MvpApplication
 import com.example.mvphomework.R
 import com.example.mvphomework.arguments
 import com.example.mvphomework.databinding.FragmentUserBinding
-import com.example.mvphomework.lesson2.data.fork.RetrofitForksRepository
 import com.example.mvphomework.lesson2.data.network.RetrofitSource
 import com.example.mvphomework.lesson2.data.repository.RetrofitRepositoriesRepo
 import com.example.mvphomework.lesson2.data.user.GitHubUser
@@ -45,7 +44,6 @@ class UserFragment : MvpAppCompatFragment(), BackButtonListener, UserView {
             user,
             AndroidSchedulers.mainThread(),
             RetrofitRepositoriesRepo(RetrofitSource.api),
-            RetrofitForksRepository(RetrofitSource.api),
             MvpApplication.Navigation.router,
             AndroidScreens()
         )

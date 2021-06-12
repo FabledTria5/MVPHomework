@@ -1,7 +1,6 @@
 package com.example.mvphomework.lesson2.presentation.user
 
 import com.example.mvphomework.lesson2.data.fork.ForkItem
-import com.example.mvphomework.lesson2.data.fork.RetrofitForksRepository
 import com.example.mvphomework.lesson2.data.repository.GitHubRepositoryItem
 import com.example.mvphomework.lesson2.data.repository.RepositoriesList
 import com.example.mvphomework.lesson2.data.repository.RetrofitRepositoriesRepo
@@ -11,6 +10,8 @@ import com.example.mvphomework.lesson2.presentation.user.repos_list.IRepositoryL
 import com.example.mvphomework.lesson2.presentation.user.repos_list.RepositoryItemView
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.core.Scheduler
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.plusAssign
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import moxy.MvpPresenter
 
@@ -18,11 +19,12 @@ class UserPresenter(
     private val gitHubUser: GitHubUser,
     private val uiScheduler: Scheduler,
     private val usersRepo: RetrofitRepositoriesRepo,
-    private val forksRepository: RetrofitForksRepository,
     private val router: Router,
     private val screens: AndroidScreens
 ) :
     MvpPresenter<UserView>() {
+
+    private val disposables = CompositeDisposable()
 
     class RepositoryPresenter : IRepositoryListPresenter {
 
@@ -62,12 +64,19 @@ class UserPresenter(
         }
     }
 
-    private fun loadRepositories() = usersRepo.getRepositories(gitHubUser.login.toString())
-        .observeOn(uiScheduler)
-        .subscribeBy(
-            onSuccess = { onGetRepositoriesSuccess(it) },
-            onError = { onGetRepositoriesError() }
-        )
+    override fun onDestroy() {
+        super.onDestroy()
+        disposables.dispose()
+    }
+
+    private fun loadRepositories() {
+        disposables += usersRepo.getRepositories(gitHubUser.login.toString())
+            .observeOn(uiScheduler)
+            .subscribeBy(
+                onSuccess = { onGetRepositoriesSuccess(it) },
+                onError = { onGetRepositoriesError() }
+            )
+    }
 
     private fun onGetRepositoriesSuccess(repositoriesList: RepositoriesList) {
         repositoriesPresenter.repositories.addAll(repositoriesList)
