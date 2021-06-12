@@ -6,4 +6,5 @@
     <string name="onboarding_message">Нажимайте на кнопку и увеличивайте ее счетчик</string>
     <string name="counter_message">Счетчик увеличен!</string>
     <string name="you_are_reading_about_user">You are reading about user:</string>
+    <string name="error_message">Error while receiving data</string>
 </resources>
