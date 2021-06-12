@@ -7,4 +7,13 @@
     <string name="counter_message">Счетчик увеличен!</string>
     <string name="you_are_reading_about_user">You are reading about user:</string>
     <string name="error_message">Error while receiving data</string>
+    <string name="convert_to_png">Convert to PNG</string>
+    <string name="pick_an_image">Pick an image</string>
+    <string name="try_again_later">Try again later</string>
+    <string name="converted">Successfully converted!</string>
+    <string name="canceled">Operation was canceled by user</string>
+    <string name="granted">Permission granted!</string>
+    <string name="cancel">Cancel</string>
+    <string name="permissions_granted">Permission to save images granted! Press the button again</string>
+    <string name="permissions_denied">This app can\'t work properly without storage access</string>
 </resources>
