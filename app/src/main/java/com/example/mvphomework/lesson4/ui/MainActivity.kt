@@ -8,8 +8,8 @@ import android.os.Bundle
 import android.provider.MediaStore
 import com.example.mvphomework.R
 import com.example.mvphomework.databinding.ActivityMainHomework4Binding
+import com.example.mvphomework.lesson2.utils.images.GlideImageLoader
 import com.example.mvphomework.toast
-import com.squareup.picasso.Picasso
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.dialogs.SettingsDialog
 import moxy.MvpAppCompatActivity
@@ -89,12 +89,8 @@ class MainActivity : MvpAppCompatActivity(), MainView, EasyPermissions.Permissio
 
     override fun showCancel() = toast(getString(R.string.canceled))
 
-    override fun setImage(imageUri: Uri) = Picasso.get()
-        .load(imageUri)
-        .noPlaceholder()
-        .centerCrop()
-        .fit()
-        .into(binding.ivPicture)
+    override fun setImage(imageUri: Uri) =
+        GlideImageLoader().loadInto(imageUri.toString(), binding.ivPicture)
 
     override fun saveImage(bitmap: Bitmap) {
         MediaStore.Images.Media.insertImage(
