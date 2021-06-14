@@ -1,4 +1,4 @@
-package com.example.mvphomework.lesson2.data.network
+package com.example.mvphomework.lesson2.data.retrofit.network
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

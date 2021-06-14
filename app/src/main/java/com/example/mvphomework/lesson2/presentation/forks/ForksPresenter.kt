@@ -1,8 +1,8 @@
 package com.example.mvphomework.lesson2.presentation.forks
 
-import com.example.mvphomework.lesson2.data.fork.Fork
-import com.example.mvphomework.lesson2.data.fork.ForkItem
-import com.example.mvphomework.lesson2.data.fork.RetrofitForksRepository
+import com.example.mvphomework.lesson2.data.retrofit.fork.Fork
+import com.example.mvphomework.lesson2.data.retrofit.fork.ForkItem
+import com.example.mvphomework.lesson2.data.retrofit.fork.RetrofitForksRepository
 import com.example.mvphomework.lesson2.presentation.forks.forks_list.ForksItemView
 import com.example.mvphomework.lesson2.presentation.forks.forks_list.IForksPresenter
 import com.github.terrakok.cicerone.Router

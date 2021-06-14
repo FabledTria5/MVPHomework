@@ -9,13 +9,15 @@ import com.example.mvphomework.MvpApplication
 import com.example.mvphomework.R
 import com.example.mvphomework.arguments
 import com.example.mvphomework.databinding.FragmentUserBinding
-import com.example.mvphomework.lesson2.data.network.RetrofitSource
-import com.example.mvphomework.lesson2.data.repository.RetrofitRepositoriesRepo
-import com.example.mvphomework.lesson2.data.user.GitHubUser
+import com.example.mvphomework.lesson2.data.db.GitHubDatabase
+import com.example.mvphomework.lesson2.data.retrofit.network.RetrofitSource
+import com.example.mvphomework.lesson2.data.retrofit.repository.RetrofitRepositoriesRepo
+import com.example.mvphomework.lesson2.data.retrofit.user.GitHubUser
 import com.example.mvphomework.lesson2.navigation.AndroidScreens
 import com.example.mvphomework.lesson2.navigation.BackButtonListener
 import com.example.mvphomework.lesson2.presentation.user.repos_list.RepositoryAdapter
 import com.example.mvphomework.lesson2.utils.images.GlideImageLoader
+import com.example.mvphomework.lesson2.utils.network.AndroidNetworkStatus
 import com.example.mvphomework.toast
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
@@ -43,7 +45,11 @@ class UserFragment : MvpAppCompatFragment(), BackButtonListener, UserView {
         UserPresenter(
             user,
             AndroidSchedulers.mainThread(),
-            RetrofitRepositoriesRepo(RetrofitSource.api),
+            RetrofitRepositoriesRepo(
+                RetrofitSource.api,
+                AndroidNetworkStatus(requireContext()),
+                GitHubDatabase.getDatabase(requireContext())
+            ),
             MvpApplication.Navigation.router,
             AndroidScreens()
         )

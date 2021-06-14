@@ -1,7 +1,7 @@
 package com.example.mvphomework.lesson2.presentation.users
 
-import com.example.mvphomework.lesson2.data.user.GitHubUser
-import com.example.mvphomework.lesson2.data.user.GitHubUserRepo
+import com.example.mvphomework.lesson2.data.retrofit.user.GitHubUser
+import com.example.mvphomework.lesson2.data.retrofit.user.GitHubUserRepo
 import com.example.mvphomework.lesson2.navigation.AndroidScreens
 import com.example.mvphomework.lesson2.presentation.users.list.IUserListPresenter
 import com.example.mvphomework.lesson2.presentation.users.list.UserItemView

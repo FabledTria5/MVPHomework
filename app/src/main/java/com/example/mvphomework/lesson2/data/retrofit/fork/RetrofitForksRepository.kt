@@ -1,6 +1,6 @@
-package com.example.mvphomework.lesson2.data.fork
+package com.example.mvphomework.lesson2.data.retrofit.fork
 
-import com.example.mvphomework.lesson2.data.network.DataSource
+import com.example.mvphomework.lesson2.data.retrofit.network.DataSource
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlin.String

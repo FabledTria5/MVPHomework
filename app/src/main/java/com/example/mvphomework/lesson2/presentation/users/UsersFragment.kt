@@ -8,12 +8,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mvphomework.MvpApplication
 import com.example.mvphomework.R
 import com.example.mvphomework.databinding.FragmentUsersBinding
-import com.example.mvphomework.lesson2.data.network.RetrofitSource
-import com.example.mvphomework.lesson2.data.user.RetrofitGithubUsersRepo
+import com.example.mvphomework.lesson2.data.db.GitHubDatabase
+import com.example.mvphomework.lesson2.data.retrofit.network.RetrofitSource
+import com.example.mvphomework.lesson2.data.retrofit.user.RetrofitGithubUsersRepo
 import com.example.mvphomework.lesson2.navigation.AndroidScreens
 import com.example.mvphomework.lesson2.navigation.BackButtonListener
 import com.example.mvphomework.lesson2.presentation.users.list.UsersAdapter
 import com.example.mvphomework.lesson2.utils.images.GlideImageLoader
+import com.example.mvphomework.lesson2.utils.network.AndroidNetworkStatus
 import com.example.mvphomework.toast
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
@@ -25,10 +27,14 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
         fun newInstance() = UsersFragment()
     }
 
-    private val presenter: UsersPresenter by moxyPresenter {
+    private val presenter by moxyPresenter {
         UsersPresenter(
             AndroidSchedulers.mainThread(),
-            RetrofitGithubUsersRepo(RetrofitSource.api),
+            RetrofitGithubUsersRepo(
+                RetrofitSource.api,
+                AndroidNetworkStatus(requireContext()),
+                GitHubDatabase.getDatabase(requireContext())
+            ),
             MvpApplication.Navigation.router,
             AndroidScreens()
         )
@@ -63,7 +69,7 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
 
     override fun updateList() = usersAdapter.notifyDataSetChanged()
 
-    override fun showError(t: Throwable) = toast(getString(R.string.error_message))
+    override fun showError(t: Throwable) = toast(t.toString())
 
     override fun backPressed() = presenter.backPressed()
 }

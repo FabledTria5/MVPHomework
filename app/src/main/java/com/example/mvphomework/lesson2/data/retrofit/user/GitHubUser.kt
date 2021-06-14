@@ -1,4 +1,4 @@
-package com.example.mvphomework.lesson2.data.user
+package com.example.mvphomework.lesson2.data.retrofit.user
 
 import android.os.Parcelable
 import com.google.gson.annotations.Expose

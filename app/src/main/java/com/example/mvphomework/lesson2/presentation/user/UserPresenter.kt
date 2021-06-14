@@ -1,10 +1,9 @@
 package com.example.mvphomework.lesson2.presentation.user
 
-import com.example.mvphomework.lesson2.data.fork.ForkItem
-import com.example.mvphomework.lesson2.data.repository.GitHubRepositoryItem
-import com.example.mvphomework.lesson2.data.repository.RepositoriesList
-import com.example.mvphomework.lesson2.data.repository.RetrofitRepositoriesRepo
-import com.example.mvphomework.lesson2.data.user.GitHubUser
+import com.example.mvphomework.lesson2.data.retrofit.fork.ForkItem
+import com.example.mvphomework.lesson2.data.retrofit.repository.GitHubRepositoryItem
+import com.example.mvphomework.lesson2.data.retrofit.repository.RetrofitRepositoriesRepo
+import com.example.mvphomework.lesson2.data.retrofit.user.GitHubUser
 import com.example.mvphomework.lesson2.navigation.AndroidScreens
 import com.example.mvphomework.lesson2.presentation.user.repos_list.IRepositoryListPresenter
 import com.example.mvphomework.lesson2.presentation.user.repos_list.RepositoryItemView
@@ -34,7 +33,7 @@ class UserPresenter(
 
         override fun bindView(view: RepositoryItemView, position: Int) {
             val repository = repositories[position]
-            repository.full_name.let { view.setName(it) }
+            repository.name.let { view.setName(it) }
         }
 
         override fun getCount() = repositories.count()
@@ -78,7 +77,7 @@ class UserPresenter(
             )
     }
 
-    private fun onGetRepositoriesSuccess(repositoriesList: RepositoriesList) {
+    private fun onGetRepositoriesSuccess(repositoriesList: List<GitHubRepositoryItem>) {
         repositoriesPresenter.repositories.addAll(repositoriesList)
         viewState.updateList()
     }
