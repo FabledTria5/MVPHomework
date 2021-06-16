@@ -1,6 +1,7 @@
 package com.example.mvphomework.lesson2.data.db
 
 import android.content.Context
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -9,8 +10,7 @@ import com.example.mvphomework.lesson2.data.db.entity.RoomGitHubUser
 
 @Database(
     entities = [RoomGitHubUser::class, RoomGitHubRepository::class],
-    version = 1,
-    exportSchema = false
+    version = 1
 )
 abstract class GitHubDatabase : RoomDatabase() {
 

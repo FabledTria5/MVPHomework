@@ -52,7 +52,7 @@ class UserPresenter(
         loadRepositories()
 
         repositoriesPresenter.itemClickListener = { itemPosition ->
-            val userName = gitHubUser.login!!
+            val userName = gitHubUser.login
             val repositoryName = repositoriesPresenter.repositories[itemPosition].name
             router.navigateTo(
                 screen = screens.forks(
@@ -69,11 +69,11 @@ class UserPresenter(
     }
 
     private fun loadRepositories() {
-        disposables += usersRepo.getRepositories(gitHubUser.login.toString())
+        disposables += usersRepo.getRepositories(gitHubUser.login)
             .observeOn(uiScheduler)
             .subscribeBy(
-                onSuccess = { onGetRepositoriesSuccess(it) },
-                onError = { onGetRepositoriesError() }
+                onSuccess = (::onGetRepositoriesSuccess),
+                onError = (::onGetRepositoriesError)
             )
     }
 
@@ -82,7 +82,7 @@ class UserPresenter(
         viewState.updateList()
     }
 
-    private fun onGetRepositoriesError() = viewState.showError()
+    private fun onGetRepositoriesError(throwable: Throwable) = viewState.showError(throwable)
 
     fun backPressed(): Boolean {
         router.exit()

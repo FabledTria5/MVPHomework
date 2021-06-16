@@ -7,8 +7,8 @@ import retrofit2.http.Url
 
 @Parcelize
 data class GitHubUser(
-    @Expose val id: String? = null,
-    @Expose val login: String? = null,
-    @Expose val avatar_url: String? = null,
-    @Url val repos_url: String? = null
+    @Expose val id: String,
+    @Expose val login: String,
+    @Expose val avatar_url: String,
+    @Url val repos_url: String
 ) : Parcelable

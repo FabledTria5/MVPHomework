@@ -1,7 +1,7 @@
 package com.example.mvphomework.lesson2.presentation.users
 
 import com.example.mvphomework.lesson2.data.retrofit.user.GitHubUser
-import com.example.mvphomework.lesson2.data.retrofit.user.GitHubUserRepo
+import com.example.mvphomework.lesson2.data.retrofit.user.IUserRepository
 import com.example.mvphomework.lesson2.navigation.AndroidScreens
 import com.example.mvphomework.lesson2.presentation.users.list.IUserListPresenter
 import com.example.mvphomework.lesson2.presentation.users.list.UserItemView
@@ -14,7 +14,7 @@ import moxy.MvpPresenter
 
 class UsersPresenter(
     private val uiScheduler: Scheduler,
-    private val usersRepo: GitHubUserRepo,
+    private val usersRepo: IUserRepository,
     private val router: Router,
     private val screens: AndroidScreens,
 ) : MvpPresenter<UsersView>() {
@@ -29,8 +29,8 @@ class UsersPresenter(
 
         override fun bindView(view: UserItemView, position: Int) {
             val user = users[position]
-            user.login?.let { view.setLogin(it) }
-            user.avatar_url?.let { view.setAvatar(it) }
+            user.login.let { view.setLogin(it) }
+            user.avatar_url.let { view.setAvatar(it) }
         }
     }
 

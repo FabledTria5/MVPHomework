@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitSource {
 
-    val api: DataSource by lazy {
+    val api: RetrofitDataSource by lazy {
 
         Retrofit.Builder()
             .baseUrl("https://api.github.com")
@@ -22,7 +22,7 @@ object RetrofitSource {
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(DataSource::class.java)
+            .create(RetrofitDataSource::class.java)
     }
 
 }

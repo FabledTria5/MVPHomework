@@ -6,9 +6,10 @@ import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mvphomework.MvpApplication
-import com.example.mvphomework.R
 import com.example.mvphomework.databinding.FragmentUsersBinding
 import com.example.mvphomework.lesson2.data.db.GitHubDatabase
+import com.example.mvphomework.lesson2.data.retrofit.datasource.cloud.CloudDataSource
+import com.example.mvphomework.lesson2.data.retrofit.datasource.local.LocalDataSource
 import com.example.mvphomework.lesson2.data.retrofit.network.RetrofitSource
 import com.example.mvphomework.lesson2.data.retrofit.user.RetrofitGithubUsersRepo
 import com.example.mvphomework.lesson2.navigation.AndroidScreens
@@ -31,9 +32,9 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
         UsersPresenter(
             AndroidSchedulers.mainThread(),
             RetrofitGithubUsersRepo(
-                RetrofitSource.api,
                 AndroidNetworkStatus(requireContext()),
-                GitHubDatabase.getDatabase(requireContext())
+                CloudDataSource(RetrofitSource.api),
+                LocalDataSource(GitHubDatabase.getDatabase(requireContext()))
             ),
             MvpApplication.Navigation.router,
             AndroidScreens()

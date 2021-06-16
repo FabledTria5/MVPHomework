@@ -16,7 +16,7 @@ interface UserView : MvpView {
     fun showUser(gitHubUser: GitHubUser)
 
     @Skip
-    fun showError()
+    fun showError(t: Throwable)
 
     @AddToEndSingle
     fun updateList()

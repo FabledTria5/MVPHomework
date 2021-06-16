@@ -10,6 +10,8 @@ import com.example.mvphomework.R
 import com.example.mvphomework.arguments
 import com.example.mvphomework.databinding.FragmentUserBinding
 import com.example.mvphomework.lesson2.data.db.GitHubDatabase
+import com.example.mvphomework.lesson2.data.retrofit.datasource.cloud.CloudDataSource
+import com.example.mvphomework.lesson2.data.retrofit.datasource.local.LocalDataSource
 import com.example.mvphomework.lesson2.data.retrofit.network.RetrofitSource
 import com.example.mvphomework.lesson2.data.retrofit.repository.RetrofitRepositoriesRepo
 import com.example.mvphomework.lesson2.data.retrofit.user.GitHubUser
@@ -46,9 +48,9 @@ class UserFragment : MvpAppCompatFragment(), BackButtonListener, UserView {
             user,
             AndroidSchedulers.mainThread(),
             RetrofitRepositoriesRepo(
-                RetrofitSource.api,
                 AndroidNetworkStatus(requireContext()),
-                GitHubDatabase.getDatabase(requireContext())
+                CloudDataSource(RetrofitSource.api),
+                LocalDataSource(GitHubDatabase.getDatabase(requireContext()))
             ),
             MvpApplication.Navigation.router,
             AndroidScreens()
@@ -88,7 +90,7 @@ class UserFragment : MvpAppCompatFragment(), BackButtonListener, UserView {
         }
     }
 
-    override fun showError() = toast(getString(R.string.repos_error))
+    override fun showError(t: Throwable) = toast(t.toString())
 
     override fun updateList() = repositoryAdapter.notifyDataSetChanged()
 }
