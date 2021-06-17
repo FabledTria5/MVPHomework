@@ -16,4 +16,8 @@
     <string name="cancel">Cancel</string>
     <string name="permissions_granted">Permission to save images granted! Press the button again</string>
     <string name="permissions_denied">This app can\'t work properly without storage access</string>
+    <string name="repositories">Repositories:</string>
+    <string name="repos_error">Error while receiving repositories</string>
+    <string name="forks">Forks:</string>
+    <string name="forks_error">Error while receiving forks</string>
 </resources>

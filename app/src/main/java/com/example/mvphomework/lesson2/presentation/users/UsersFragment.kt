@@ -8,10 +8,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mvphomework.MvpApplication
 import com.example.mvphomework.R
 import com.example.mvphomework.databinding.FragmentUsersBinding
-import com.example.mvphomework.lesson2.data.user.GitHubUserRepository
+import com.example.mvphomework.lesson2.data.network.RetrofitSource
+import com.example.mvphomework.lesson2.data.user.RetrofitGithubUsersRepo
+import com.example.mvphomework.lesson2.navigation.AndroidScreens
 import com.example.mvphomework.lesson2.navigation.BackButtonListener
 import com.example.mvphomework.lesson2.presentation.users.list.UsersAdapter
+import com.example.mvphomework.lesson2.utils.images.GlideImageLoader
 import com.example.mvphomework.toast
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
@@ -23,8 +27,10 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
 
     private val presenter: UsersPresenter by moxyPresenter {
         UsersPresenter(
-            UserInteractor(userRepository = GitHubUserRepository()),
-            MvpApplication.Navigation.router
+            AndroidSchedulers.mainThread(),
+            RetrofitGithubUsersRepo(RetrofitSource.api),
+            MvpApplication.Navigation.router,
+            AndroidScreens()
         )
     }
 
@@ -50,14 +56,14 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     override fun init() {
         binding.rvUsers.apply {
             layoutManager = LinearLayoutManager(context)
-            usersAdapter = UsersAdapter(presenter.usersListPresenter)
+            usersAdapter = UsersAdapter(presenter.usersListPresenter, GlideImageLoader())
             adapter = usersAdapter
         }
     }
 
     override fun updateList() = usersAdapter.notifyDataSetChanged()
 
-    override fun showError() = toast(getString(R.string.error_message))
+    override fun showError(t: Throwable) = toast(getString(R.string.error_message))
 
     override fun backPressed() = presenter.backPressed()
 }
