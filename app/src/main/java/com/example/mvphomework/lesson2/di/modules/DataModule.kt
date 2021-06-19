@@ -67,8 +67,4 @@ class DataModule {
         api: RetrofitDataSource
     ): ForksRepository = RetrofitForksRepository(api)
 
-    @Singleton
-    @Provides
-    fun provideScreens(): IScreens = AndroidScreens()
-
 }

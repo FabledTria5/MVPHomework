@@ -23,7 +23,7 @@ import javax.inject.Inject
 class UserFragment : DaggerFragment(fragment_user), BackButtonListener, UserView {
 
     @Inject
-    lateinit var scheduler: Schedulers
+    lateinit var schedulers: Schedulers
 
     @Inject
     lateinit var usersRepo: IRepoRepository
@@ -50,7 +50,7 @@ class UserFragment : DaggerFragment(fragment_user), BackButtonListener, UserView
     }
 
     private val userPresenter by moxyPresenter {
-        UserPresenter(user, scheduler, usersRepo, router, screens)
+        UserPresenter(user, schedulers, usersRepo, router, screens)
     }
 
     private lateinit var repositoryAdapter: RepositoryAdapter
