@@ -2,36 +2,44 @@ package com.example.mvphomework.lesson2.presentation.user
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.mvphomework.MvpApplication
-import com.example.mvphomework.R
+import com.example.mvphomework.R.layout.fragment_user
 import com.example.mvphomework.arguments
 import com.example.mvphomework.databinding.FragmentUserBinding
-import com.example.mvphomework.lesson2.data.db.GitHubDatabase
-import com.example.mvphomework.lesson2.data.retrofit.datasource.cloud.CloudDataSource
-import com.example.mvphomework.lesson2.data.retrofit.datasource.local.LocalDataSource
-import com.example.mvphomework.lesson2.data.retrofit.network.RetrofitSource
-import com.example.mvphomework.lesson2.data.retrofit.repository.RetrofitRepositoriesRepo
+import com.example.mvphomework.lesson2.data.retrofit.repository.IRepoRepository
 import com.example.mvphomework.lesson2.data.retrofit.user.GitHubUser
-import com.example.mvphomework.lesson2.navigation.AndroidScreens
 import com.example.mvphomework.lesson2.navigation.BackButtonListener
+import com.example.mvphomework.lesson2.navigation.IScreens
+import com.example.mvphomework.lesson2.presentation.di_classes.DaggerFragment
 import com.example.mvphomework.lesson2.presentation.user.repos_list.RepositoryAdapter
-import com.example.mvphomework.lesson2.utils.images.GlideImageLoader
-import com.example.mvphomework.lesson2.utils.network.AndroidNetworkStatus
+import com.example.mvphomework.lesson2.schedulers.Schedulers
+import com.example.mvphomework.loadImage
 import com.example.mvphomework.toast
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import moxy.MvpAppCompatFragment
+import com.github.terrakok.cicerone.Router
 import moxy.ktx.moxyPresenter
+import javax.inject.Inject
 
-class UserFragment : MvpAppCompatFragment(), BackButtonListener, UserView {
+class UserFragment : DaggerFragment(fragment_user), BackButtonListener, UserView {
+
+    @Inject
+    lateinit var scheduler: Schedulers
+
+    @Inject
+    lateinit var usersRepo: IRepoRepository
+
+    @Inject
+    lateinit var router: Router
+
+    @Inject
+    lateinit var screens: IScreens
 
     companion object {
         private const val ARGUMENT_USER = "user"
 
-        fun newInstance(user: GitHubUser) =
-            UserFragment().arguments(ARGUMENT_USER to user)
+        fun newInstance(user: GitHubUser) = UserFragment().apply {
+            arguments(ARGUMENT_USER to user)
+        }
     }
 
     private var _binding: FragmentUserBinding? = null
@@ -41,20 +49,8 @@ class UserFragment : MvpAppCompatFragment(), BackButtonListener, UserView {
         arguments?.getParcelable(ARGUMENT_USER)!!
     }
 
-    private val glideImageLoader by lazy { GlideImageLoader() }
-
     private val userPresenter by moxyPresenter {
-        UserPresenter(
-            user,
-            AndroidSchedulers.mainThread(),
-            RetrofitRepositoriesRepo(
-                AndroidNetworkStatus(requireContext()),
-                CloudDataSource(RetrofitSource.api),
-                LocalDataSource(GitHubDatabase.getDatabase(requireContext()))
-            ),
-            MvpApplication.Navigation.router,
-            AndroidScreens()
-        )
+        UserPresenter(user, scheduler, usersRepo, router, screens)
     }
 
     private lateinit var repositoryAdapter: RepositoryAdapter
@@ -63,10 +59,9 @@ class UserFragment : MvpAppCompatFragment(), BackButtonListener, UserView {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentUserBinding.inflate(layoutInflater, container, false)
-        return binding.root
-    }
+    ) = FragmentUserBinding.inflate(inflater, container, false).also {
+        _binding = it
+    }.root
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -86,7 +81,7 @@ class UserFragment : MvpAppCompatFragment(), BackButtonListener, UserView {
     override fun showUser(gitHubUser: GitHubUser) {
         with(binding) {
             tvUserName.text = gitHubUser.login
-            glideImageLoader.loadInto(gitHubUser.avatar_url, ivUserAvatar)
+            ivUserAvatar.loadImage(gitHubUser.avatar_url)
         }
     }
 
