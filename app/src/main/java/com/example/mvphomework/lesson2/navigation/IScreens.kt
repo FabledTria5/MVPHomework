@@ -1,6 +1,6 @@
 package com.example.mvphomework.lesson2.navigation
 
-import com.example.mvphomework.lesson2.data.retrofit.user.GitHubUser
+import com.example.mvphomework.lesson2.data.model.GitHubUser
 import com.github.terrakok.cicerone.Screen
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 

@@ -1,41 +1,42 @@
 package com.example.mvphomework.lesson2.data.db
 
 import androidx.room.*
-import com.example.mvphomework.lesson2.data.db.entity.RoomGitHubRepository
+import com.example.mvphomework.lesson2.data.model.GitHubUserRepository
+import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 
 @Dao
 interface RepositoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(user: RoomGitHubRepository)
+    fun insert(user: GitHubUserRepository): Completable
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(vararg users: RoomGitHubRepository)
+    fun insert(vararg users: GitHubUserRepository): Completable
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(users: List<RoomGitHubRepository>)
+    fun insert(users: List<GitHubUserRepository>): Completable
 
     @Update
-    fun update(user: RoomGitHubRepository)
+    fun update(user: GitHubUserRepository)
 
     @Update
-    fun update(vararg users: RoomGitHubRepository)
+    fun update(vararg users: GitHubUserRepository)
 
     @Update
-    fun update(users: List<RoomGitHubRepository>)
+    fun update(users: List<GitHubUserRepository>)
 
     @Delete
-    fun delete(user: RoomGitHubRepository)
+    fun delete(user: GitHubUserRepository)
 
     @Delete
-    fun delete(vararg users: RoomGitHubRepository)
+    fun delete(vararg users: GitHubUserRepository)
 
     @Delete
-    fun delete(users: List<RoomGitHubRepository>)
+    fun delete(users: List<GitHubUserRepository>)
 
-    @Query("SELECT * FROM RoomGithubRepository")
-    fun getAll(): Single<List<RoomGitHubRepository>>
+    @Query("SELECT * FROM github_user_repositories")
+    fun getAll(): Single<List<GitHubUserRepository>>
 
-    @Query("SELECT * FROM RoomGithubRepository WHERE userId = :id")
-    fun findForUser(id: String): Single<List<RoomGitHubRepository>>
+    @Query("SELECT * FROM github_user_repositories WHERE user_login = :login")
+    fun findForUser(login: String): Single<List<GitHubUserRepository>>
 }

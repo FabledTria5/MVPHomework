@@ -1,6 +1,6 @@
 package com.example.mvphomework.lesson2.presentation.user.repos_list
 
-import com.example.mvphomework.lesson2.data.retrofit.fork.ForkItem
+import com.example.mvphomework.lesson2.data.model.ForkItem
 
 interface RepositoryListPresenter<V> {
     var itemClickListener: ((position: Int) -> Unit)?

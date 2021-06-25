@@ -1,7 +1,7 @@
 package com.example.mvphomework.lesson2.presentation.users
 
-import com.example.mvphomework.lesson2.data.retrofit.user.GitHubUser
-import com.example.mvphomework.lesson2.data.retrofit.user.IUserRepository
+import com.example.mvphomework.lesson2.data.model.GitHubUser
+import com.example.mvphomework.lesson2.data.datasource.user.IUserRepository
 import com.example.mvphomework.lesson2.navigation.AndroidScreens
 import com.example.mvphomework.lesson2.navigation.IScreens
 import com.example.mvphomework.lesson2.presentation.users.list.IUserListPresenter
@@ -33,7 +33,7 @@ class UsersPresenter(
         override fun bindView(view: UserItemView, position: Int) {
             val user = users[position]
             user.login.let { view.setLogin(it) }
-            user.avatar_url.let { view.setAvatar(it) }
+            user.avatar.let { view.setAvatar(it) }
         }
     }
 
