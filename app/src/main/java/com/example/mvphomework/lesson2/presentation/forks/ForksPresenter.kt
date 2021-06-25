@@ -1,10 +1,12 @@
 package com.example.mvphomework.lesson2.presentation.forks
 
+import com.example.mvphomework.lesson2.data.datasource.fork.ForksRepository
 import com.example.mvphomework.lesson2.data.model.Fork
 import com.example.mvphomework.lesson2.data.model.ForkItem
 import com.example.mvphomework.lesson2.data.datasource.fork.RetrofitForksRepository
 import com.example.mvphomework.lesson2.presentation.forks.forks_list.ForksItemView
 import com.example.mvphomework.lesson2.presentation.forks.forks_list.IForksPresenter
+import com.example.mvphomework.lesson2.schedulers.Schedulers
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -14,8 +16,8 @@ import moxy.MvpPresenter
 
 class ForksPresenter(
     private val forksUrlData: Pair<String, String>,
-    private val forksRepository: RetrofitForksRepository,
-    private val uiScheduler: Scheduler,
+    private val forksRepository: ForksRepository,
+    private val schedulers: Schedulers,
     private val router: Router,
 ) : MvpPresenter<ForksView>() {
 
@@ -48,7 +50,7 @@ class ForksPresenter(
     private fun loadForks() {
         viewState.showLoading()
         disposables += forksRepository.getForks(forksUrlData.first, forksUrlData.second)
-            .observeOn(uiScheduler)
+            .observeOn(schedulers.main())
             .subscribeBy(
                 onSuccess = { onGetForksSuccess(it) },
                 onError = { onGetForksError() }

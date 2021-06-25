@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mvphomework.R.layout.fragment_user
 import com.example.mvphomework.arguments
 import com.example.mvphomework.databinding.FragmentUserBinding
-import com.example.mvphomework.lesson2.data.retrofit.repository.IRepoRepository
-import com.example.mvphomework.lesson2.data.retrofit.user.GitHubUser
+import com.example.mvphomework.lesson2.data.datasource.repository.IRepoRepository
+import com.example.mvphomework.lesson2.data.model.GitHubUser
 import com.example.mvphomework.lesson2.navigation.BackButtonListener
 import com.example.mvphomework.lesson2.navigation.IScreens
 import com.example.mvphomework.lesson2.presentation.di_classes.DaggerFragment
@@ -17,6 +17,7 @@ import com.example.mvphomework.lesson2.schedulers.Schedulers
 import com.example.mvphomework.loadImage
 import com.example.mvphomework.toast
 import com.github.terrakok.cicerone.Router
+import io.reactivex.rxjava3.core.Scheduler
 import moxy.ktx.moxyPresenter
 import javax.inject.Inject
 
@@ -81,7 +82,7 @@ class UserFragment : DaggerFragment(fragment_user), BackButtonListener, UserView
     override fun showUser(gitHubUser: GitHubUser) {
         with(binding) {
             tvUserName.text = gitHubUser.login
-            ivUserAvatar.loadImage(gitHubUser.avatar_url)
+            ivUserAvatar.loadImage(gitHubUser.avatar)
         }
     }
 

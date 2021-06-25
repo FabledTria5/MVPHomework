@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mvphomework.R.layout.fragment_users
 import com.example.mvphomework.databinding.FragmentUsersBinding
-import com.example.mvphomework.lesson2.data.retrofit.user.IUserRepository
+import com.example.mvphomework.lesson2.data.datasource.user.IUserRepository
 import com.example.mvphomework.lesson2.navigation.BackButtonListener
 import com.example.mvphomework.lesson2.navigation.IScreens
 import com.example.mvphomework.lesson2.presentation.di_classes.DaggerFragment

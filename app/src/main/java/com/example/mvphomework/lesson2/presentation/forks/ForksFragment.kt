@@ -9,7 +9,7 @@ import com.example.mvphomework.R
 import com.example.mvphomework.R.layout.fragment_forks
 import com.example.mvphomework.arguments
 import com.example.mvphomework.databinding.FragmentForksBinding
-import com.example.mvphomework.lesson2.data.retrofit.fork.ForksRepository
+import com.example.mvphomework.lesson2.data.datasource.fork.ForksRepository
 import com.example.mvphomework.lesson2.navigation.BackButtonListener
 import com.example.mvphomework.lesson2.presentation.di_classes.DaggerFragment
 import com.example.mvphomework.lesson2.presentation.forks.forks_list.ForksAdapter
