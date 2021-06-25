@@ -8,10 +8,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mvphomework.MvpApplication
 import com.example.mvphomework.databinding.FragmentUsersBinding
 import com.example.mvphomework.lesson2.data.db.GitHubDatabase
-import com.example.mvphomework.lesson2.data.retrofit.datasource.cloud.CloudDataSource
-import com.example.mvphomework.lesson2.data.retrofit.datasource.local.LocalDataSource
+import com.example.mvphomework.lesson2.data.datasource.cloud.CloudDataSource
+import com.example.mvphomework.lesson2.data.datasource.local.LocalDataSource
 import com.example.mvphomework.lesson2.data.retrofit.network.RetrofitSource
-import com.example.mvphomework.lesson2.data.retrofit.user.RetrofitGithubUsersRepo
+import com.example.mvphomework.lesson2.data.datasource.user.RetrofitGithubUsersRepo
 import com.example.mvphomework.lesson2.navigation.AndroidScreens
 import com.example.mvphomework.lesson2.navigation.BackButtonListener
 import com.example.mvphomework.lesson2.presentation.users.list.UsersAdapter

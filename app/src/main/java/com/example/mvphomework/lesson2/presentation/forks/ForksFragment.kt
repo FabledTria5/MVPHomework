@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mvphomework.*
 import com.example.mvphomework.databinding.FragmentForksBinding
-import com.example.mvphomework.lesson2.data.retrofit.fork.RetrofitForksRepository
+import com.example.mvphomework.lesson2.data.datasource.fork.RetrofitForksRepository
 import com.example.mvphomework.lesson2.data.retrofit.network.RetrofitSource
 import com.example.mvphomework.lesson2.navigation.BackButtonListener
 import com.example.mvphomework.lesson2.presentation.forks.forks_list.ForksAdapter

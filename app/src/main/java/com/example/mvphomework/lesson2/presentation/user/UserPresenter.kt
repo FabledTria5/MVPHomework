@@ -1,9 +1,9 @@
 package com.example.mvphomework.lesson2.presentation.user
 
-import com.example.mvphomework.lesson2.data.retrofit.fork.ForkItem
-import com.example.mvphomework.lesson2.data.retrofit.repository.GitHubRepositoryItem
-import com.example.mvphomework.lesson2.data.retrofit.repository.RetrofitRepositoriesRepo
-import com.example.mvphomework.lesson2.data.retrofit.user.GitHubUser
+import com.example.mvphomework.lesson2.data.model.GitHubUser
+import com.example.mvphomework.lesson2.data.model.GitHubUserRepository
+import com.example.mvphomework.lesson2.data.model.ForkItem
+import com.example.mvphomework.lesson2.data.datasource.repository.RetrofitRepositoriesRepo
 import com.example.mvphomework.lesson2.navigation.AndroidScreens
 import com.example.mvphomework.lesson2.presentation.user.repos_list.IRepositoryListPresenter
 import com.example.mvphomework.lesson2.presentation.user.repos_list.RepositoryItemView
@@ -27,7 +27,7 @@ class UserPresenter(
 
     class RepositoryPresenter : IRepositoryListPresenter {
 
-        val repositories = mutableListOf<GitHubRepositoryItem>()
+        val repositories = mutableListOf<GitHubUserRepository>()
 
         override var itemClickListener: ((position: Int) -> Unit)? = null
 
@@ -77,7 +77,7 @@ class UserPresenter(
             )
     }
 
-    private fun onGetRepositoriesSuccess(repositoriesList: List<GitHubRepositoryItem>) {
+    private fun onGetRepositoriesSuccess(repositoriesList: List<GitHubUserRepository>) {
         repositoriesPresenter.repositories.addAll(repositoriesList)
         viewState.updateList()
     }

@@ -1,6 +1,6 @@
 package com.example.mvphomework.lesson2.presentation.user
 
-import com.example.mvphomework.lesson2.data.retrofit.user.GitHubUser
+import com.example.mvphomework.lesson2.data.model.GitHubUser
 import moxy.MvpView
 import moxy.viewstate.strategy.AddToEndSingleStrategy
 import moxy.viewstate.strategy.StateStrategyType
