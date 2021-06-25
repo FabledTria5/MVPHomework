@@ -1,10 +1,9 @@
 package com.example.mvphomework.lesson2.presentation.user
 
-import com.example.mvphomework.lesson2.data.fork.ForkItem
-import com.example.mvphomework.lesson2.data.repository.GitHubRepositoryItem
-import com.example.mvphomework.lesson2.data.repository.RepositoriesList
-import com.example.mvphomework.lesson2.data.repository.RetrofitRepositoriesRepo
-import com.example.mvphomework.lesson2.data.user.GitHubUser
+import com.example.mvphomework.lesson2.data.model.GitHubUser
+import com.example.mvphomework.lesson2.data.model.GitHubUserRepository
+import com.example.mvphomework.lesson2.data.model.ForkItem
+import com.example.mvphomework.lesson2.data.datasource.repository.RetrofitRepositoriesRepo
 import com.example.mvphomework.lesson2.navigation.AndroidScreens
 import com.example.mvphomework.lesson2.presentation.user.repos_list.IRepositoryListPresenter
 import com.example.mvphomework.lesson2.presentation.user.repos_list.RepositoryItemView
@@ -28,13 +27,13 @@ class UserPresenter(
 
     class RepositoryPresenter : IRepositoryListPresenter {
 
-        val repositories = mutableListOf<GitHubRepositoryItem>()
+        val repositories = mutableListOf<GitHubUserRepository>()
 
         override var itemClickListener: ((position: Int) -> Unit)? = null
 
         override fun bindView(view: RepositoryItemView, position: Int) {
             val repository = repositories[position]
-            repository.full_name.let { view.setName(it) }
+            repository.name.let { view.setName(it) }
         }
 
         override fun getCount() = repositories.count()
@@ -53,7 +52,7 @@ class UserPresenter(
         loadRepositories()
 
         repositoriesPresenter.itemClickListener = { itemPosition ->
-            val userName = gitHubUser.login!!
+            val userName = gitHubUser.login
             val repositoryName = repositoriesPresenter.repositories[itemPosition].name
             router.navigateTo(
                 screen = screens.forks(
@@ -70,20 +69,20 @@ class UserPresenter(
     }
 
     private fun loadRepositories() {
-        disposables += usersRepo.getRepositories(gitHubUser.login.toString())
+        disposables += usersRepo.getRepositories(gitHubUser.login)
             .observeOn(uiScheduler)
             .subscribeBy(
-                onSuccess = { onGetRepositoriesSuccess(it) },
-                onError = { onGetRepositoriesError() }
+                onSuccess = (::onGetRepositoriesSuccess),
+                onError = (::onGetRepositoriesError)
             )
     }
 
-    private fun onGetRepositoriesSuccess(repositoriesList: RepositoriesList) {
+    private fun onGetRepositoriesSuccess(repositoriesList: List<GitHubUserRepository>) {
         repositoriesPresenter.repositories.addAll(repositoriesList)
         viewState.updateList()
     }
 
-    private fun onGetRepositoriesError() = viewState.showError()
+    private fun onGetRepositoriesError(throwable: Throwable) = viewState.showError(throwable)
 
     fun backPressed(): Boolean {
         router.exit()

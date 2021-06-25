@@ -1,6 +1,6 @@
 package com.example.mvphomework.lesson2.navigation
 
-import com.example.mvphomework.lesson2.data.user.GitHubUser
+import com.example.mvphomework.lesson2.data.model.GitHubUser
 import com.example.mvphomework.lesson2.presentation.forks.ForksFragment
 import com.example.mvphomework.lesson2.presentation.user.UserFragment
 import com.example.mvphomework.lesson2.presentation.users.UsersFragment

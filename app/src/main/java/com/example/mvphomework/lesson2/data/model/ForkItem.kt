@@ -1,4 +1,4 @@
-package com.example.mvphomework.lesson2.data.fork
+package com.example.mvphomework.lesson2.data.model
 
 import kotlin.String
 

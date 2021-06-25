@@ -6,16 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mvphomework.MvpApplication
-import com.example.mvphomework.R
 import com.example.mvphomework.arguments
 import com.example.mvphomework.databinding.FragmentUserBinding
-import com.example.mvphomework.lesson2.data.network.RetrofitSource
-import com.example.mvphomework.lesson2.data.repository.RetrofitRepositoriesRepo
-import com.example.mvphomework.lesson2.data.user.GitHubUser
+import com.example.mvphomework.lesson2.data.db.GitHubDatabase
+import com.example.mvphomework.lesson2.data.datasource.cloud.CloudDataSource
+import com.example.mvphomework.lesson2.data.datasource.local.LocalDataSource
+import com.example.mvphomework.lesson2.data.retrofit.network.RetrofitSource
+import com.example.mvphomework.lesson2.data.datasource.repository.RetrofitRepositoriesRepo
+import com.example.mvphomework.lesson2.data.model.GitHubUser
 import com.example.mvphomework.lesson2.navigation.AndroidScreens
 import com.example.mvphomework.lesson2.navigation.BackButtonListener
 import com.example.mvphomework.lesson2.presentation.user.repos_list.RepositoryAdapter
 import com.example.mvphomework.lesson2.utils.images.GlideImageLoader
+import com.example.mvphomework.lesson2.utils.network.AndroidNetworkStatus
 import com.example.mvphomework.toast
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
@@ -43,7 +46,11 @@ class UserFragment : MvpAppCompatFragment(), BackButtonListener, UserView {
         UserPresenter(
             user,
             AndroidSchedulers.mainThread(),
-            RetrofitRepositoriesRepo(RetrofitSource.api),
+            RetrofitRepositoriesRepo(
+                AndroidNetworkStatus(requireContext()),
+                CloudDataSource(RetrofitSource.api),
+                LocalDataSource(GitHubDatabase.getDatabase(requireContext()))
+            ),
             MvpApplication.Navigation.router,
             AndroidScreens()
         )
@@ -78,11 +85,11 @@ class UserFragment : MvpAppCompatFragment(), BackButtonListener, UserView {
     override fun showUser(gitHubUser: GitHubUser) {
         with(binding) {
             tvUserName.text = gitHubUser.login
-            glideImageLoader.loadInto(gitHubUser.avatar_url, ivUserAvatar)
+            glideImageLoader.loadInto(gitHubUser.avatar, ivUserAvatar)
         }
     }
 
-    override fun showError() = toast(getString(R.string.repos_error))
+    override fun showError(t: Throwable) = toast(t.toString())
 
     override fun updateList() = repositoryAdapter.notifyDataSetChanged()
 }
