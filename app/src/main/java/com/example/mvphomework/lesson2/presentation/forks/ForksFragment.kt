@@ -36,12 +36,10 @@ class ForksFragment : DaggerFragment(fragment_forks), ForksView, BackButtonListe
         private const val USER_NAME = "user_name"
 
         fun newInstance(repositoryName: String, userName: String) =
-            ForksFragment().apply {
-                arguments(
-                    REPOSITORY_NAME to repositoryName,
-                    USER_NAME to userName
-                )
-            }
+            ForksFragment().arguments(
+                REPOSITORY_NAME to repositoryName,
+                USER_NAME to userName
+            )
     }
 
     private lateinit var forksAdapter: ForksAdapter
@@ -49,8 +47,8 @@ class ForksFragment : DaggerFragment(fragment_forks), ForksView, BackButtonListe
     private var _binding: FragmentForksBinding? = null
     private val binding get() = _binding!!
 
-    private val userName by lazy { arguments?.getString(USER_NAME)!! }
-    private val repositoryName by lazy { arguments?.getString(REPOSITORY_NAME)!! }
+    private val userName by lazy { arguments?.getString(USER_NAME) ?: "" }
+    private val repositoryName by lazy { arguments?.getString(REPOSITORY_NAME) ?: "" }
 
     private val forksPresenter by moxyPresenter {
         ForksPresenter(Pair(userName, repositoryName), forksRepository, schedulers, router)

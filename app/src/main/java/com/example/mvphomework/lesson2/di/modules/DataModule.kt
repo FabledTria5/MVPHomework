@@ -14,9 +14,6 @@ import com.example.mvphomework.lesson2.data.datasource.user.IUserRepository
 import com.example.mvphomework.lesson2.data.datasource.user.RetrofitGithubUsersRepo
 import com.example.mvphomework.lesson2.data.db.GitHubDatabase
 import com.example.mvphomework.lesson2.data.retrofit.network.RetrofitDataSource
-import com.example.mvphomework.lesson2.schedulers.DefaultSchedulers
-import com.example.mvphomework.lesson2.schedulers.Schedulers
-import com.example.mvphomework.lesson2.utils.Constants
 import com.example.mvphomework.lesson2.utils.network.NetworkStatus
 import dagger.Module
 import dagger.Provides
@@ -27,15 +24,10 @@ class DataModule {
 
     @Singleton
     @Provides
-    fun provideDatabaseName(): String = Constants.DATABASE_NAME
-
-    @Singleton
-    @Provides
     fun provideDataBase(
         context: Context,
-        databaseName: String
     ): GitHubDatabase =
-        Room.databaseBuilder(context, GitHubDatabase::class.java, databaseName).build()
+        Room.databaseBuilder(context, GitHubDatabase::class.java, "github_database").build()
 
     @Singleton
     @Provides

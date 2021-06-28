@@ -1,7 +1,6 @@
 package com.example.mvphomework.lesson2.presentation
 
 import android.os.Bundle
-import com.example.mvphomework.MvpApplication
 import com.example.mvphomework.R
 import com.example.mvphomework.lesson2.navigation.AndroidScreens
 import com.example.mvphomework.lesson2.navigation.BackButtonListener
@@ -23,7 +22,7 @@ class MainActivity : DaggerActivity(R.layout.activity_main_homework2), MainView 
     private val navigator = AppNavigator(this, R.id.fragmentContainer)
 
     private val presenter by moxyPresenter {
-        MainPresenter()
+        MainPresenter(router)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

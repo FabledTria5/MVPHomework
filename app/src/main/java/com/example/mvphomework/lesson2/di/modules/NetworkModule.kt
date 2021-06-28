@@ -17,14 +17,10 @@ import javax.inject.Singleton
 @Module
 class NetworkModule {
 
-    @Named(value = "baseUrl")
     @Provides
-    fun baseUrl() = "https://api.github.com/"
-
-    @Provides
-    fun api(@Named(value = "baseUrl") baseUrl: String, client: OkHttpClient): RetrofitDataSource =
+    fun api(client: OkHttpClient): RetrofitDataSource =
         Retrofit.Builder()
-            .baseUrl(baseUrl)
+            .baseUrl("https://api.github.com/")
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
