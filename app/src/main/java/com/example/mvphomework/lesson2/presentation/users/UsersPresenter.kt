@@ -3,20 +3,23 @@ package com.example.mvphomework.lesson2.presentation.users
 import com.example.mvphomework.lesson2.data.model.GitHubUser
 import com.example.mvphomework.lesson2.data.datasource.user.IUserRepository
 import com.example.mvphomework.lesson2.navigation.AndroidScreens
+import com.example.mvphomework.lesson2.navigation.IScreens
 import com.example.mvphomework.lesson2.presentation.users.list.IUserListPresenter
 import com.example.mvphomework.lesson2.presentation.users.list.UserItemView
+import com.example.mvphomework.lesson2.schedulers.Schedulers
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import moxy.MvpPresenter
+import javax.inject.Inject
 
 class UsersPresenter(
-    private val uiScheduler: Scheduler,
+    private val schedulers: Schedulers,
     private val usersRepo: IUserRepository,
     private val router: Router,
-    private val screens: AndroidScreens,
+    private val screens: IScreens
 ) : MvpPresenter<UsersView>() {
 
     private val disposables = CompositeDisposable()
@@ -54,7 +57,7 @@ class UsersPresenter(
 
     private fun loadData() {
         disposables += usersRepo.getUsers()
-            .observeOn(uiScheduler)
+            .observeOn(schedulers.main())
             .subscribeBy(
                 onError = { onGetUsersError(it) },
                 onSuccess = { onGetUsersSuccess(it) }

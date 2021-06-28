@@ -8,7 +8,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import com.example.mvphomework.R
 import com.example.mvphomework.databinding.ActivityMainHomework4Binding
-import com.example.mvphomework.lesson2.utils.images.GlideImageLoader
+import com.example.mvphomework.loadImage
 import com.example.mvphomework.toast
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.dialogs.SettingsDialog
@@ -89,8 +89,7 @@ class MainActivity : MvpAppCompatActivity(), MainView, EasyPermissions.Permissio
 
     override fun showCancel() = toast(getString(R.string.canceled))
 
-    override fun setImage(imageUri: Uri) =
-        GlideImageLoader().loadInto(imageUri.toString(), binding.ivPicture)
+    override fun setImage(imageUri: Uri) = binding.ivPicture.loadImage(imageUri.toString())
 
     override fun saveImage(bitmap: Bitmap) {
         MediaStore.Images.Media.insertImage(
@@ -106,7 +105,7 @@ class MainActivity : MvpAppCompatActivity(), MainView, EasyPermissions.Permissio
     override fun hideLoading() = binding.progressBar.hide()
 
     override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
-        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms.first())) {
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
             SettingsDialog.Builder(this).build().show()
         } else {
             requestPermissions()

@@ -6,7 +6,6 @@ interface RepositoryListPresenter<V> {
     var itemClickListener: ((position: Int) -> Unit)?
     fun bindView(view: V, position: Int)
     fun getCount(): Int
-    fun setForks(forks: List<ForkItem>)
 }
 
 interface IRepositoryListPresenter : RepositoryListPresenter<RepositoryItemView>

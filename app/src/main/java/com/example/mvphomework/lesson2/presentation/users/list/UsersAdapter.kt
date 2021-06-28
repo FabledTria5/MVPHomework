@@ -2,14 +2,12 @@ package com.example.mvphomework.lesson2.presentation.users.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mvphomework.databinding.UserItemBinding
-import com.example.mvphomework.lesson2.utils.images.ImageLoader
+import com.example.mvphomework.loadImage
 
 class UsersAdapter(
     private val presenter: IUserListPresenter,
-    private val imageLoader: ImageLoader<ImageView>
 ) :
     RecyclerView.Adapter<UsersAdapter.ViewHolder>() {
 
@@ -21,7 +19,7 @@ class UsersAdapter(
         }
 
         override fun setAvatar(avatarUrl: String) {
-            imageLoader.loadInto(url = avatarUrl, container = binding.ivAvatar)
+            binding.ivAvatar.loadImage(avatarUrl)
         }
     }
 

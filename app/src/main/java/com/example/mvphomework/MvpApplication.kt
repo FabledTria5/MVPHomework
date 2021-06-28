@@ -1,16 +1,17 @@
 package com.example.mvphomework
 
-import android.app.Application
-import com.github.terrakok.cicerone.Cicerone
+import com.example.mvphomework.lesson2.di.components.DaggerHomeworkComponent
+import com.example.mvphomework.lesson2.schedulers.DefaultSchedulers
+import com.example.mvphomework.lesson2.schedulers.Schedulers
+import dagger.android.AndroidInjector
+import dagger.android.DaggerApplication
 
-class MvpApplication : Application() {
+class MvpApplication : DaggerApplication() {
 
-    object Navigation {
-
-        private val cicerone by lazy { Cicerone.create() }
-
-        val router get() = cicerone.router
-        val navigatorHolder get() = cicerone.getNavigatorHolder()
-    }
-
+    override fun applicationInjector(): AndroidInjector<MvpApplication> =
+        DaggerHomeworkComponent
+            .builder()
+            .withContext(applicationContext)
+            .withSchedulers(DefaultSchedulers)
+            .build()
 }

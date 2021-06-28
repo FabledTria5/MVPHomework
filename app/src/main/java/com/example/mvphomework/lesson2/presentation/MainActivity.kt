@@ -1,38 +1,44 @@
 package com.example.mvphomework.lesson2.presentation
 
 import android.os.Bundle
-import com.example.mvphomework.MvpApplication
 import com.example.mvphomework.R
 import com.example.mvphomework.lesson2.navigation.AndroidScreens
 import com.example.mvphomework.lesson2.navigation.BackButtonListener
+import com.example.mvphomework.lesson2.presentation.di_classes.DaggerActivity
+import com.github.terrakok.cicerone.NavigatorHolder
+import com.github.terrakok.cicerone.Router
 import com.github.terrakok.cicerone.androidx.AppNavigator
-import moxy.MvpAppCompatActivity
 import moxy.ktx.moxyPresenter
+import javax.inject.Inject
 
-class MainActivity : MvpAppCompatActivity(R.layout.activity_main_homework2), MainView {
+class MainActivity : DaggerActivity(R.layout.activity_main_homework2), MainView {
+
+    @Inject
+    lateinit var navigatorHolder: NavigatorHolder
+
+    @Inject
+    lateinit var router: Router
+
     private val navigator = AppNavigator(this, R.id.fragmentContainer)
 
     private val presenter by moxyPresenter {
-        MainPresenter(
-            MvpApplication.Navigation.router,
-            AndroidScreens()
-        )
+        MainPresenter(router)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         savedInstanceState
-            ?: MvpApplication.Navigation.router.newRootScreen(AndroidScreens().users())
+            ?: router.newRootScreen(AndroidScreens().users())
     }
 
     override fun onResumeFragments() {
         super.onResumeFragments()
-        MvpApplication.Navigation.navigatorHolder.setNavigator(navigator)
+        navigatorHolder.setNavigator(navigator)
     }
 
     override fun onPause() {
         super.onPause()
-        MvpApplication.Navigation.navigatorHolder.removeNavigator()
+        navigatorHolder.removeNavigator()
     }
 
     override fun onBackPressed() {

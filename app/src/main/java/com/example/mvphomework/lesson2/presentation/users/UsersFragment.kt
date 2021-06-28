@@ -3,26 +3,33 @@ package com.example.mvphomework.lesson2.presentation.users
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.mvphomework.MvpApplication
+import com.example.mvphomework.R.layout.fragment_users
 import com.example.mvphomework.databinding.FragmentUsersBinding
-import com.example.mvphomework.lesson2.data.db.GitHubDatabase
-import com.example.mvphomework.lesson2.data.datasource.cloud.CloudDataSource
-import com.example.mvphomework.lesson2.data.datasource.local.LocalDataSource
-import com.example.mvphomework.lesson2.data.retrofit.network.RetrofitSource
-import com.example.mvphomework.lesson2.data.datasource.user.RetrofitGithubUsersRepo
-import com.example.mvphomework.lesson2.navigation.AndroidScreens
+import com.example.mvphomework.lesson2.data.datasource.user.IUserRepository
 import com.example.mvphomework.lesson2.navigation.BackButtonListener
+import com.example.mvphomework.lesson2.navigation.IScreens
+import com.example.mvphomework.lesson2.presentation.di_classes.DaggerFragment
 import com.example.mvphomework.lesson2.presentation.users.list.UsersAdapter
-import com.example.mvphomework.lesson2.utils.images.GlideImageLoader
-import com.example.mvphomework.lesson2.utils.network.AndroidNetworkStatus
+import com.example.mvphomework.lesson2.schedulers.Schedulers
 import com.example.mvphomework.toast
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import moxy.MvpAppCompatFragment
+import com.github.terrakok.cicerone.Router
 import moxy.ktx.moxyPresenter
+import javax.inject.Inject
 
-class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
+class UsersFragment : DaggerFragment(fragment_users), UsersView, BackButtonListener {
+
+    @Inject
+    lateinit var schedulers: Schedulers
+
+    @Inject
+    lateinit var router: Router
+
+    @Inject
+    lateinit var userRepository: IUserRepository
+
+    @Inject
+    lateinit var screens: IScreens
 
     companion object {
         fun newInstance() = UsersFragment()
@@ -30,14 +37,10 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
 
     private val presenter by moxyPresenter {
         UsersPresenter(
-            AndroidSchedulers.mainThread(),
-            RetrofitGithubUsersRepo(
-                AndroidNetworkStatus(requireContext()),
-                CloudDataSource(RetrofitSource.api),
-                LocalDataSource(GitHubDatabase.getDatabase(requireContext()))
-            ),
-            MvpApplication.Navigation.router,
-            AndroidScreens()
+            schedulers = schedulers,
+            router = router,
+            usersRepo = userRepository,
+            screens = screens
         )
     }
 
@@ -50,10 +53,9 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): ConstraintLayout {
-        _binding = FragmentUsersBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+    ) = FragmentUsersBinding.inflate(inflater, container, false).also {
+        _binding = it
+    }.root
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -63,7 +65,7 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     override fun init() {
         binding.rvUsers.apply {
             layoutManager = LinearLayoutManager(context)
-            usersAdapter = UsersAdapter(presenter.usersListPresenter, GlideImageLoader())
+            usersAdapter = UsersAdapter(presenter.usersListPresenter)
             adapter = usersAdapter
         }
     }

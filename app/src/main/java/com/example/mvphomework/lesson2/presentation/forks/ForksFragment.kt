@@ -5,17 +5,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.mvphomework.*
+import com.example.mvphomework.R
+import com.example.mvphomework.R.layout.fragment_forks
+import com.example.mvphomework.arguments
 import com.example.mvphomework.databinding.FragmentForksBinding
-import com.example.mvphomework.lesson2.data.datasource.fork.RetrofitForksRepository
-import com.example.mvphomework.lesson2.data.retrofit.network.RetrofitSource
+import com.example.mvphomework.lesson2.data.datasource.fork.ForksRepository
 import com.example.mvphomework.lesson2.navigation.BackButtonListener
+import com.example.mvphomework.lesson2.presentation.di_classes.DaggerFragment
 import com.example.mvphomework.lesson2.presentation.forks.forks_list.ForksAdapter
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import moxy.MvpAppCompatDialogFragment
+import com.example.mvphomework.lesson2.schedulers.Schedulers
+import com.example.mvphomework.show
+import com.example.mvphomework.toast
+import com.github.terrakok.cicerone.Router
 import moxy.ktx.moxyPresenter
+import javax.inject.Inject
 
-class ForksFragment : MvpAppCompatDialogFragment(), ForksView, BackButtonListener {
+class ForksFragment : DaggerFragment(fragment_forks), ForksView, BackButtonListener {
+
+    @Inject
+    lateinit var forksRepository: ForksRepository
+
+    @Inject
+    lateinit var schedulers: Schedulers
+
+    @Inject
+    lateinit var router: Router
 
     companion object {
         private const val REPOSITORY_NAME = "repository_name"
@@ -28,26 +42,16 @@ class ForksFragment : MvpAppCompatDialogFragment(), ForksView, BackButtonListene
             )
     }
 
+    private lateinit var forksAdapter: ForksAdapter
+
     private var _binding: FragmentForksBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var forksAdapter: ForksAdapter
-
-    private val userName by lazy {
-        arguments?.getString(USER_NAME)!!
-    }
-
-    private val repositoryName by lazy {
-        arguments?.getString(REPOSITORY_NAME)!!
-    }
+    private val userName by lazy { arguments?.getString(USER_NAME) ?: "" }
+    private val repositoryName by lazy { arguments?.getString(REPOSITORY_NAME) ?: "" }
 
     private val forksPresenter by moxyPresenter {
-        ForksPresenter(
-            Pair(userName, repositoryName),
-            RetrofitForksRepository(RetrofitSource.api),
-            AndroidSchedulers.mainThread(),
-            MvpApplication.Navigation.router
-        )
+        ForksPresenter(Pair(userName, repositoryName), forksRepository, schedulers, router)
     }
 
     override fun onCreateView(

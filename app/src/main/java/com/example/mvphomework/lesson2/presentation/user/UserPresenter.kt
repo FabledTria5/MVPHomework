@@ -1,14 +1,14 @@
 package com.example.mvphomework.lesson2.presentation.user
 
+import com.example.mvphomework.lesson2.data.datasource.repository.IRepoRepository
+import com.example.mvphomework.lesson2.data.model.ForkItem
 import com.example.mvphomework.lesson2.data.model.GitHubUser
 import com.example.mvphomework.lesson2.data.model.GitHubUserRepository
-import com.example.mvphomework.lesson2.data.model.ForkItem
-import com.example.mvphomework.lesson2.data.datasource.repository.RetrofitRepositoriesRepo
-import com.example.mvphomework.lesson2.navigation.AndroidScreens
+import com.example.mvphomework.lesson2.navigation.IScreens
 import com.example.mvphomework.lesson2.presentation.user.repos_list.IRepositoryListPresenter
 import com.example.mvphomework.lesson2.presentation.user.repos_list.RepositoryItemView
+import com.example.mvphomework.lesson2.schedulers.Schedulers
 import com.github.terrakok.cicerone.Router
-import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 import io.reactivex.rxjava3.kotlin.subscribeBy
@@ -16,10 +16,10 @@ import moxy.MvpPresenter
 
 class UserPresenter(
     private val gitHubUser: GitHubUser,
-    private val uiScheduler: Scheduler,
-    private val usersRepo: RetrofitRepositoriesRepo,
+    private val schedulers: Schedulers,
+    private val usersRepo: IRepoRepository,
     private val router: Router,
-    private val screens: AndroidScreens
+    private val screens: IScreens
 ) :
     MvpPresenter<UserView>() {
 
@@ -37,10 +37,6 @@ class UserPresenter(
         }
 
         override fun getCount() = repositories.count()
-
-        override fun setForks(forks: List<ForkItem>) {
-
-        }
     }
 
     val repositoriesPresenter = RepositoryPresenter()
@@ -70,7 +66,7 @@ class UserPresenter(
 
     private fun loadRepositories() {
         disposables += usersRepo.getRepositories(gitHubUser.login)
-            .observeOn(uiScheduler)
+            .observeOn(schedulers.main())
             .subscribeBy(
                 onSuccess = (::onGetRepositoriesSuccess),
                 onError = (::onGetRepositoriesError)
